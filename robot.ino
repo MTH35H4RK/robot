@@ -54,6 +54,52 @@ void back() {
   digitalWrite(in4, HIGH);
   analogWrite(enb, 118);
 }
+void FR() {
+  //MOTOR_A CLOCKWISE MAX SPEED
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, HIGH);
+  analogWrite(ena, 95);
+
+  //MOTOR_B CLOCKWISE MAX SPEED
+  digitalWrite(in3, HIGH);
+  digitalWrite(in4, LOW);
+  analogWrite(enb, 150);
+
+}
+void FL() {
+  //MOTOR_A CLOCKWISE MAX SPEED
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, HIGH);
+  analogWrite(ena, 140);
+
+  //MOTOR_B CLOCKWISE MAX SPEED
+  digitalWrite(in3, HIGH);
+  digitalWrite(in4, LOW);
+  analogWrite(enb, 90);
+}
+void BR() {
+  //MOTOR_A CLOCKWISE MAX SPEED
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW);
+  analogWrite(ena, 150);
+
+  //MOTOR_B CLOCKWISE MAX SPEED
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, HIGH);
+  analogWrite(enb, 95);
+}
+
+void BL() {
+  //MOTOR_A CLOCKWISE MAX SPEED
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW);
+  analogWrite(ena, 90);
+
+  //MOTOR_B CLOCKWISE MAX SPEED
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, HIGH);
+  analogWrite(enb, 140);
+}
 void setup() {
   // setup serial communication with the HC-05 module
   BTserial.begin(9600);
@@ -80,16 +126,24 @@ void loop() {
     // check the command and control the robot accordingly
     if (command == 'F') {
       // move forward
-     forward();
+      forward();
     } else if (command == 'B') {
       // move backward
       back();
     } else if (command == 'L') {
       // turn left
-     left();
+      left();
     } else if (command == 'R') {
       // turn right
       right();
+    } else if (command == 'G') {
+      FL();
+    } else if (command == 'I') {
+      FR();
+    } else if (command == 'J') {
+      BL();
+    } else if (command == 'H') {
+      BR();
     } else if (command == 'S') {
       // stop
       digitalWrite(ena, LOW);
