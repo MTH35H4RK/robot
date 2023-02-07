@@ -1,5 +1,8 @@
 #include <SoftwareSerial.h>
 SoftwareSerial BTserial(0, 1); // RX | TX
+// LED PINS
+int ledRight = 10;
+int ledLeft = 13;
 
 // MOTOR1 PINS
 int ena = 9;
@@ -13,47 +16,109 @@ void forward() {
   //MOTOR_A CLOCKWISE MAX SPEED
   digitalWrite(in1, LOW);
   digitalWrite(in2, HIGH);
-  analogWrite(ena, 150);
+  analogWrite(ena, 200);
 
   //MOTOR_B CLOCKWISE MAX SPEED
   digitalWrite(in3, HIGH);
   digitalWrite(in4, LOW);
-  analogWrite(enb, 155);
+  analogWrite(enb, 200);
 }
 void right() {
   //MOTOR_A CLOCKWISE MAX SPEED
   digitalWrite(in1, LOW);
   digitalWrite(in2, HIGH);
-  analogWrite(ena, 30);
+  analogWrite(ena, 0);
 
   //MOTOR_B CLOCKWISE MAX SPEED
   digitalWrite(in3, HIGH);
   digitalWrite(in4, LOW);
-  analogWrite(enb, 120);
+  analogWrite(enb, 200);
 
 }
 void left() {
   //MOTOR_A CLOCKWISE MAX SPEED
   digitalWrite(in1, LOW);
   digitalWrite(in2, HIGH);
-  analogWrite(ena, 120);
+  analogWrite(ena, 200);
 
   //MOTOR_B CLOCKWISE MAX SPEED
   digitalWrite(in3, HIGH);
   digitalWrite(in4, LOW);
-  analogWrite(enb, 30);
+  analogWrite(enb, 0);
 }
 void back() {
   //MOTOR_A CLOCKWISE MAX SPEED
   digitalWrite(in1, HIGH);
   digitalWrite(in2, LOW);
-  analogWrite(ena, 120);
+  analogWrite(ena, 200);
 
   //MOTOR_B CLOCKWISE MAX SPEED
   digitalWrite(in3, LOW);
   digitalWrite(in4, HIGH);
-  analogWrite(enb, 118);
+  analogWrite(enb, 200);
 }
+void FR() {
+  //MOTOR_A CLOCKWISE MAX SPEED
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, HIGH);
+  analogWrite(ena, 110);
+
+  //MOTOR_B CLOCKWISE MAX SPEED
+  digitalWrite(in3, HIGH);
+  digitalWrite(in4, LOW);
+  analogWrite(enb, 190);
+
+}
+void FL() {
+  //MOTOR_A CLOCKWISE MAX SPEED
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, HIGH);
+  analogWrite(ena, 190);
+
+  //MOTOR_B CLOCKWISE MAX SPEED
+  digitalWrite(in3, HIGH);
+  digitalWrite(in4, LOW);
+  analogWrite(enb, 105);
+}
+void BR() {
+  //MOTOR_A CLOCKWISE MAX SPEED
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW);
+  analogWrite(ena, 190);
+
+  //MOTOR_B CLOCKWISE MAX SPEED
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, HIGH);
+  analogWrite(enb, 110);
+}
+
+void BL() {
+  //MOTOR_A CLOCKWISE MAX SPEED
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW);
+  analogWrite(ena, 105);
+
+  //MOTOR_B CLOCKWISE MAX SPEED
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, HIGH);
+  analogWrite(enb, 200);
+}
+void ledoff() {
+  digitalWrite(ledRight, LOW);
+  digitalWrite(ledLeft, LOW);
+}
+void ledon() {
+  digitalWrite(ledRight, HIGH);
+  digitalWrite(ledLeft, HIGH);
+}
+void Ron() {
+  digitalWrite(ledRight, HIGH);
+  digitalWrite(ledLeft, LOW);
+}
+void Lon(){
+  digitalWrite(ledRight, LOW);
+      digitalWrite(ledLeft, HIGH);
+      }
 void setup() {
   // setup serial communication with the HC-05 module
   BTserial.begin(9600);
@@ -66,9 +131,15 @@ void setup() {
   pinMode(in4, OUTPUT);
   pinMode(enb, OUTPUT);
 
-  // set initial state for the motors
+  // setup pins for the LEDs
+  pinMode(ledRight, OUTPUT);
+  pinMode(ledLeft, OUTPUT);
+
+  // set initial state for the motors and LEDs
   digitalWrite(ena, LOW);
   digitalWrite(enb, LOW);
+  digitalWrite(ledRight, LOW);
+  digitalWrite(ledLeft, LOW);
 }
 
 void loop() {
@@ -80,16 +151,31 @@ void loop() {
     // check the command and control the robot accordingly
     if (command == 'F') {
       // move forward
-     forward();
+      forward();
     } else if (command == 'B') {
       // move backward
       back();
+      ledon();
     } else if (command == 'L') {
       // turn left
-     left();
+      left();
+      Lon();
     } else if (command == 'R') {
       // turn right
       right();
+      Ron();
+    } else if (command == 'G') {
+      FL();
+      Lon();
+    } else if (command == 'I') {
+      FR();
+      Ron();
+    } else if (command == 'J') {
+      BL();
+      Lon();
+    } else if (command == 'H') {
+      BR();
+      Ron();
     } else if (command == 'S') {
       // stop
       digitalWrite(ena, LOW);
